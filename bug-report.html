@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Report - English ABCs | 問題回報</title>
+    <link rel="icon" type="image/png" href="app_icon.png">
+    <link rel="apple-touch-icon" href="app_icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #FFF8E1;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #FF8A65 0%, #F4511E 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .lang-switch {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .lang-switch button {
+            background: none;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .lang-switch button:hover,
+        .lang-switch button.active {
+            background: white;
+            color: #F4511E;
+        }
+
+        .mascot {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: white;
+            border-radius: 50%;
+            padding: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .mascot img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .tagline {
+            font-size: 1.05em;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .intro {
+            background: #FBE9E7;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 4px solid #F4511E;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .form-section h2 {
+            color: #F4511E;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            margin-bottom: 25px;
+        }
+
+        .question label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .required {
+            color: #f44336;
+        }
+
+        .radio-group,
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .radio-group label,
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: normal;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .radio-group label:hover,
+        .checkbox-group label:hover {
+            background: #f5f5f5;
+        }
+
+        .radio-group input,
+        .checkbox-group input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        textarea,
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1em;
+            transition: border-color 0.2s;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        textarea:focus,
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #F4511E;
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 18px 30px;
+            background: linear-gradient(135deg, #FF8A65 0%, #F4511E 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 15px rgba(244, 81, 30, 0.4);
+        }
+
+        .submit-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(244, 81, 30, 0.6);
+        }
+
+        .submit-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .success-message {
+            display: none;
+            background: #FBE9E7;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #F4511E;
+        }
+
+        .success-message h2 {
+            color: #F4511E;
+            margin-bottom: 15px;
+        }
+
+        .branding {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .branding a {
+            color: #F4511E;
+            text-decoration: none;
+        }
+
+        .branding a:hover {
+            text-decoration: underline;
+        }
+
+        [lang="en"] .zh-only,
+        [lang="zh-TW"] .en-only {
+            display: none;
+        }
+
+        .help-text {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="lang-switch">
+                <button onclick="setLanguage('en')" id="btn-en">English</button>
+                <button onclick="setLanguage('zh-TW')" id="btn-zh" class="active">繁體中文</button>
+            </div>
+
+            <div class="mascot">
+                <img src="app_icon.png" alt="Mascot">
+            </div>
+
+            <h1>English ABCs</h1>
+            <p class="tagline en-only">🐛 Bug Report</p>
+            <p class="tagline zh-only">🐛 問題回報</p>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <p class="en-only"><strong>Found a problem? Please tell us!</strong> You don't need to be technical — just describe what happened in your own words. Every report helps us fix issues faster.</p>
+                <p class="zh-only"><strong>發現問題了嗎？請告訴我們！</strong>您不需要懂技術——只需用自己的話描述發生了什麼。每份回報都能幫助我們更快修復問題。</p>
+            </div>
+
+            <form id="bug-report-form">
+
+                <!-- What went wrong -->
+                <div class="form-section">
+                    <h2 class="en-only">What Happened?</h2>
+                    <h2 class="zh-only">發生了什麼？</h2>
+
+                    <div class="question">
+                        <label>
+                            <span class="en-only">Please describe the problem <span class="required">*</span></span>
+                            <span class="zh-only">請描述問題 <span class="required">*</span></span>
+                        </label>
+                        <textarea name="description" rows="4" required></textarea>
+                        <p class="help-text en-only">Example: "The sound didn't play when I tapped the letter A."</p>
+                        <p class="help-text zh-only">例如：「點擊字母 A 時沒有播放聲音。」</p>
+                    </div>
+
+                    <div class="question">
+                        <label>
+                            <span class="en-only">Where in the app did this happen? (Select all that apply)</span>
+                            <span class="zh-only">這個問題發生在應用程式的哪個地方？（可複選）</span>
+                        </label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="location" value="loading_screen">
+                                <span class="en-only">Loading screen (when the app first opens)</span>
+                                <span class="zh-only">載入畫面（應用程式剛開啟時）</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="letter_grid">
+                                <span class="en-only">Letter grid (the A–Z buttons)</span>
+                                <span class="zh-only">字母列表（A–Z 按鈕畫面）</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="audio">
+                                <span class="en-only">Sound / audio</span>
+                                <span class="zh-only">聲音 / 音訊</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="image_popup">
+                                <span class="en-only">Image popup (after tapping a letter)</span>
+                                <span class="zh-only">圖片彈出視窗（點擊字母後）</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="app_crash">
+                                <span class="en-only">App crashed or closed by itself</span>
+                                <span class="zh-only">應用程式當機或自動關閉</span>
+                            </label>
+                            <label>
+                                <input type="checkbox" name="location" value="other">
+                                <span class="en-only">Other / Not sure</span>
+                                <span class="zh-only">其他 / 不確定</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- How to reproduce -->
+                <div class="form-section">
+                    <h2 class="en-only">How Did It Happen?</h2>
+                    <h2 class="zh-only">如何發生的？</h2>
+
+                    <div class="question">
+                        <label>
+                            <span class="en-only">What steps led to the problem?</span>
+                            <span class="zh-only">發生問題之前您做了什麼？</span>
+                        </label>
+                        <textarea name="steps" rows="3"></textarea>
+                        <p class="help-text en-only">Example: "I opened the app, tapped letter B, and the image didn't appear."</p>
+                        <p class="help-text zh-only">例如：「我打開應用程式，點擊字母 B，但圖片沒有出現。」</p>
+                    </div>
+
+                    <div class="question">
+                        <label>
+                            <span class="en-only">How often does this happen? <span class="required">*</span></span>
+                            <span class="zh-only">這個問題發生的頻率？<span class="required">*</span></span>
+                        </label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="frequency" value="always" required>
+                                <span class="en-only">Every time I try</span>
+                                <span class="zh-only">每次都會發生</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="frequency" value="sometimes">
+                                <span class="en-only">Sometimes</span>
+                                <span class="zh-only">有時候</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="frequency" value="once">
+                                <span class="en-only">Only happened once</span>
+                                <span class="zh-only">只發生過一次</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Device info -->
+                <div class="form-section">
+                    <h2 class="en-only">Your Device</h2>
+                    <h2 class="zh-only">您的裝置</h2>
+
+                    <div class="question">
+                        <label>
+                            <span class="en-only">What type of device are you using? <span class="required">*</span></span>
+                            <span class="zh-only">您使用的是哪種裝置？<span class="required">*</span></span>
+                        </label>
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="device" value="android_phone" required>
+                                <span class="en-only">Android phone</span>
+                                <span class="zh-only">Android 手機</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="device" value="android_tablet">
+                                <span class="en-only">Android tablet</span>
+                                <span class="zh-only">Android 平板</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="device" value="iphone">
+                                <span class="en-only">iPhone</span>
+                                <span class="zh-only">iPhone</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="device" value="ipad">
+                                <span class="en-only">iPad</span>
+                                <span class="zh-only">iPad</span>
+                            </label>
+                            <label>
+                                <input type="radio" name="device" value="other">
+                                <span class="en-only">Other</span>
+                                <span class="zh-only">其他</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact -->
+                <div class="form-section">
+                    <h2 class="en-only">Follow-up (Optional)</h2>
+                    <h2 class="zh-only">後續聯絡（選填）</h2>
+
+                    <div class="question">
+                        <label>
+                            <span class="en-only">Your name or contact (optional)</span>
+                            <span class="zh-only">您的姓名或聯絡方式（選填）</span>
+                        </label>
+                        <input type="text" name="contact">
+                        <p class="help-text en-only">We may reach out if we need more details to fix the issue.</p>
+                        <p class="help-text zh-only">如果我們需要更多資訊來修復問題，可能會與您聯繫。</p>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-button">
+                    <span class="en-only">Submit Bug Report</span>
+                    <span class="zh-only">提交問題回報</span>
+                </button>
+            </form>
+
+            <div class="success-message" id="success-message">
+                <h2 class="en-only">Thank You! 🙏</h2>
+                <h2 class="zh-only">謝謝您！🙏</h2>
+                <p class="en-only">Your bug report has been submitted. We'll look into it and work on a fix as soon as possible!</p>
+                <p class="zh-only">您的問題回報已成功提交。我們會盡快調查並修復！</p>
+            </div>
+        </div>
+
+        <div class="branding">
+            <p class="en-only">Developed by <strong>李之茗外師</strong></p>
+            <p class="zh-only"><strong>李之茗外師</strong> 開發</p>
+            <a href="https://www.englishteacher.com.tw" target="_blank">www.englishteacher.com.tw</a>
+            <p style="margin-top: 15px;">
+                <a href="privacy-policy.html" class="en-only">Privacy Policy</a>
+                <a href="privacy-policy.html" class="zh-only">隱私權政策</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-zh').classList.toggle('active', lang === 'zh-TW');
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        // Load saved language preference or default to Chinese
+        const savedLang = localStorage.getItem('preferredLanguage') || 'zh-TW';
+        setLanguage(savedLang);
+
+        // Handle form submission
+        document.getElementById('bug-report-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const submitButton = this.querySelector('.submit-button');
+            submitButton.disabled = true;
+            submitButton.textContent = document.documentElement.lang === 'en' ? 'Submitting...' : '提交中...';
+
+            const formData = new FormData(this);
+            const data = {};
+
+            // Collect location checkboxes as an array
+            const locations = formData.getAll('location');
+
+            for (let [key, value] of formData.entries()) {
+                if (key !== 'location') {
+                    data[key] = value;
+                }
+            }
+            data.location = locations;
+            data.timestamp = new Date().toISOString();
+            data.language = document.documentElement.lang;
+
+            // Submit to Google Apps Script
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbxfYWNvvoXs5PbORnuy7HO1EVUTF0o6NzyyVD8L_CrbzPXMYK8-i91W7H4SxPtJaZ83/exec';
+
+            fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors', // Required for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                document.getElementById('bug-report-form').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+            })
+            .catch(error => {
+                submitButton.disabled = false;
+                submitButton.textContent = document.documentElement.lang === 'en' ? 'Submit Bug Report' : '提交問題回報';
+
+                const errorMsg = document.documentElement.lang === 'en'
+                    ? 'Sorry, there was an error submitting your report. Please try again.'
+                    : '抱歉，提交問題回報時發生錯誤。請再試一次。';
+                alert(errorMsg);
+
+                console.error('Submission error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
