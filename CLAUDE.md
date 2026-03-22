@@ -9,12 +9,15 @@ GitHub Pages marketing website for the Phonics ABC App.
 ## Repository Structure
 
 ```
-index.html                   # Redirects to closed-test-landing.html
-closed-test-landing.html     # Marketing page for closed testing
-privacy-policy.html          # App privacy policy
-feedback.html                # User feedback page
-app_icon.png                 # Mascot image (Little Chick)
-CNAME                        # Custom domain: englishabc.englishteacher.com.tw
+index.html                          # Production landing page
+privacy-policy.html                 # App privacy policy
+assets/images/app_icon.png          # Mascot image (Little Chick)
+assets/images/googleplay-badge-01-getit.width-1440.png  # Google Play download badge
+CNAME                               # Custom domain: englishabc.englishteacher.com.tw
+archive/                            # Archived pages (closed testing era)
+  closed-test-landing.html
+  bug-report.html
+  feedback.html
 ```
 
 ## GitHub Pages Setup
