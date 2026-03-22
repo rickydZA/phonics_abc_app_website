@@ -1,13 +1,377 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=closed-test-landing.html">
-    <title>English ABCs App</title>
-    <link rel="icon" type="image/png" href="app_icon.png">
-    <link rel="apple-touch-icon" href="app_icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English ABCs — Learn Phonics</title>
+    <link rel="icon" type="image/png" href="assets/images/app_icon.png">
+    <link rel="apple-touch-icon" href="assets/images/app_icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+            color: #1E293B;
+            background: #fff;
+            line-height: 1.6;
+        }
+
+        /* Language toggle */
+        [lang="en"] .zh-only,
+        [lang="zh-TW"] .en-only {
+            display: none;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: linear-gradient(150deg, #81C784 0%, #4CAF50 100%);
+            color: white;
+            padding: 40px 24px 40px;
+            text-align: center;
+        }
+
+        .lang-switch {
+            margin-bottom: 28px;
+        }
+
+        .lang-switch button {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            color: white;
+            padding: 7px 20px;
+            margin: 0 4px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-family: inherit;
+            transition: background 0.2s, border-color 0.2s, color 0.2s;
+        }
+
+        .lang-switch button.active,
+        .lang-switch button:hover {
+            background: white;
+            border-color: white;
+            color: #2E7D32;
+        }
+
+        .mascot-wrap {
+            width: 240px;
+            height: 240px;
+            background: white;
+            border-radius: 28px;
+            padding: 12px;
+            margin: 0 auto 28px;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        .mascot-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hero h1 {
+            font-size: 2.8em;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 14px;
+        }
+
+        .hero .tagline {
+            font-size: 1.15em;
+            opacity: 0.9;
+            max-width: 400px;
+            margin: 0 auto 20px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            transition: transform 0.2s, filter 0.2s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.3));
+        }
+
+        .download-btn img {
+            height: 160px;
+            width: auto;
+            display: block;
+        }
+
+        /* ── Features ── */
+        .features-section {
+            padding: 72px 24px;
+        }
+
+        .section-inner {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 1.75em;
+            font-weight: 800;
+            color: #1E293B;
+            margin-bottom: 48px;
+            letter-spacing: -0.5px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: #F1F8E9;
+            border: 1px solid #C8E6C9;
+            border-radius: 18px;
+            padding: 28px 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+        }
+
+        .feature-icon {
+            font-size: 2em;
+            margin-bottom: 14px;
+            display: block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.05em;
+            font-weight: 700;
+            color: #2E7D32;
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            font-size: 0.92em;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        /* ── Audience ── */
+        .audience-section {
+            background: #F1F8E9;
+            padding: 72px 24px;
+        }
+
+        .audience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 0;
+        }
+
+        .audience-card {
+            background: white;
+            border: 1px solid #C8E6C9;
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+        }
+
+        .audience-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .audience-card p {
+            font-size: 0.92em;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: #1B5E20;
+            color: #A5D6A7;
+            text-align: center;
+            padding: 44px 24px;
+            font-size: 0.9em;
+        }
+
+        .footer-teacher {
+            color: white;
+            font-weight: 600;
+            font-size: 1em;
+            margin-bottom: 6px;
+        }
+
+        footer a {
+            color: #A5D6A7;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-links {
+            margin-top: 18px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 520px) {
+            .hero h1 { font-size: 2.1em; }
+            .features-section { padding: 52px 16px; }
+            .audience-section { padding: 52px 16px; }
+        }
+    </style>
 </head>
 <body>
-    <p>Redirecting to <a href="closed-test-landing.html">Closed Test Landing Page</a>...</p>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="lang-switch">
+            <button onclick="setLanguage('en')" id="btn-en">English</button>
+            <button onclick="setLanguage('zh-TW')" id="btn-zh">繁體中文</button>
+        </div>
+
+        <div class="mascot-wrap">
+            <img src="assets/images/app_icon.png" alt="Little Chick mascot">
+        </div>
+
+        <h1>English ABCs</h1>
+
+        <p class="tagline en-only">Learn the alphabet with phonics! Tap letters to hear sounds and see fun pictures.</p>
+        <p class="tagline zh-only">用自然發音學習英文字母！點擊字母就能聽發音、看有趣圖片。</p>
+
+        <a href="https://play.google.com/store/apps/details?id=tw.com.englishteacher.phonicsabc" class="download-btn" target="_blank" rel="noopener">
+            <img src="assets/images/googleplay-badge-01-getit.width-1440.png" alt="Get it on Google Play">
+        </a>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section">
+        <div class="section-inner">
+            <h2 class="section-title en-only">Everything young learners need</h2>
+            <h2 class="section-title zh-only">專為幼兒打造的學習體驗</h2>
+
+            <div class="features-grid">
+
+                <div class="feature-card">
+                    <span class="feature-icon">🎙️</span>
+                    <h3 class="en-only">Native English Speaker Audio</h3>
+                    <h3 class="zh-only">母語英語教師錄音</h3>
+                    <p class="en-only">All sounds recorded by a qualified native English teacher based in Taiwan — clear, natural pronunciation from the very first listen.</p>
+                    <p class="zh-only">所有發音均由在台灣任教的合格母語英語教師錄製，從第一次聆聽就能接觸到清晰、自然的發音。</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🔤</span>
+                    <h3 class="en-only">Complete A–Z Alphabet</h3>
+                    <h3 class="zh-only">完整 A–Z 字母表</h3>
+                    <p class="en-only">Every letter with a clear phonics sound and a colourful, child-friendly illustration.</p>
+                    <p class="zh-only">每個字母都有清楚的自然發音，配有色彩豐富的兒童插圖。</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🎵</span>
+                    <h3 class="en-only">Audio Chants</h3>
+                    <h3 class="zh-only">語音吟唱</h3>
+                    <p class="en-only">Catchy chants reinforce each sound through rhythm and repetition — "A A a a a, a is for apple!"</p>
+                    <p class="zh-only">朗朗上口的吟唱透過節奏與反覆練習加深記憶 — 「A A a a a, a is for apple!」</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">▶️</span>
+                    <h3 class="en-only">Auto-Play Mode</h3>
+                    <h3 class="zh-only">自動播放模式</h3>
+                    <p class="en-only">Let the app teach the whole alphabet hands-free — all 26 letters play in sequence automatically.</p>
+                    <p class="zh-only">讓應用程式自動教完整個字母表 — 26 個字母依序自動播放，免動手操作。</p>
+                </div>
+
+                <div class="feature-card">
+                    <span class="feature-icon">🚫</span>
+                    <h3 class="en-only">No Ads, No Purchases</h3>
+                    <h3 class="zh-only">無廣告、無內購</h3>
+                    <p class="en-only">Pure, distraction-free learning. Pay nothing — get everything.</p>
+                    <p class="zh-only">純粹的無干擾學習體驗。無需付費，輕鬆擁有全部內容。</p>
+                </div>
+
+
+                <div class="feature-card">
+                    <span class="feature-icon">👆</span>
+                    <h3 class="en-only">Simple Tap-to-Learn</h3>
+                    <h3 class="zh-only">點擊即學</h3>
+                    <p class="en-only">Designed for young hands — tap any letter to hear its sound, tap again to replay.</p>
+                    <p class="zh-only">專為小手設計 — 點擊任意字母即可聆聽發音，再次點擊可重播。</p>
+                </div>
+
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Audience -->
+    <section class="audience-section">
+        <div class="section-inner">
+            <h2 class="section-title en-only">Perfect for</h2>
+            <h2 class="section-title zh-only">最適合</h2>
+
+            <div class="audience-grid">
+                <div class="audience-card">
+                    <span class="audience-icon">👧</span>
+                    <p class="en-only">Kids ages 3–8</p>
+                    <p class="zh-only">3–8 歲兒童</p>
+                </div>
+                <div class="audience-card">
+                    <span class="audience-icon">🌏</span>
+                    <p class="en-only">ESL / EFL learners</p>
+                    <p class="zh-only">ESL / EFL 學習者</p>
+                </div>
+                <div class="audience-card">
+                    <span class="audience-icon">👨‍👩‍👧</span>
+                    <p class="en-only">Parents at home</p>
+                    <p class="zh-only">居家學習的家長</p>
+                </div>
+                <div class="audience-card">
+                    <span class="audience-icon">📚</span>
+                    <p class="en-only">Preschool teachers</p>
+                    <p class="zh-only">幼兒園教師</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-teacher en-only">Recommended by 李之茗外師</p>
+        <p class="footer-teacher zh-only">李之茗外師 推薦</p>
+        <a href="https://www.englishteacher.com.tw" target="_blank" rel="noopener">www.englishteacher.com.tw</a>
+        <div class="footer-links">
+<a href="privacy-policy.html" class="en-only">Privacy Policy</a>
+            <a href="privacy-policy.html" class="zh-only">隱私權政策</a>
+        </div>
+    </footer>
+
+    <script>
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            document.getElementById('btn-zh').classList.toggle('active', lang === 'zh-TW');
+            localStorage.setItem('preferredLanguage', lang);
+        }
+
+        const savedLang = localStorage.getItem('preferredLanguage') || 'zh-TW';
+        setLanguage(savedLang);
+    </script>
 </body>
 </html>
